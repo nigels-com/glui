@@ -73,15 +73,17 @@ void GLUI_FileBrowser::dir_list_callback(GLUI_Control *glui_object) {
   GLUI_FileBrowser* me = dynamic_cast<GLUI_FileBrowser*>(list->associated_object);
   if (!me)
     return;
-  int this_item;
+  int this_item, l;
   const char *selected;
   this_item = list->get_current_item();
   if (this_item > 0) { /* file or directory selected */
     selected = list->get_item_ptr( this_item )->text.c_str();
-    if (selected[0] == '/' || selected[0] == '\\') {
+    l =  strlen(selected) ;
+    if (selected[l-1] == '/' || selected[0] == '/' ||
+                                selected[0] == '\\') {
       if (me->allow_change_dir) {
 #ifdef __GNUC__
-        chdir(selected+1);
+        chdir(selected);
 #endif
 #ifdef _WIN32
         SetCurrentDirectory(selected+1);
