@@ -77,10 +77,8 @@ void GLUI_FileBrowser::dir_list_callback(GLUI_Control *glui_object) {
   int this_item, l;
   const char *selected;
   this_item = list->get_current_item();
-  printf(" dir_list_callback: this item = %i\n",this_item);
   if (this_item > 0) { /* file or directory selected */
     selected = list->get_item_ptr( this_item )->text.c_str();
-  printf(" dir_list_callback: selected  = %s\n",selected);
     l =  strlen(selected) ;
     if (selected[l-1] == '/' || selected[0] == '/' ||
                                 selected[0] == '\\') {
@@ -111,25 +109,15 @@ int fb_list_compare(const void *p1, const void *p2)
 
   str1 = (char *)malloc(l1*sizeof(char));
   str2 = (char *)malloc(l2*sizeof(char));
-
   strncpy(str1, lp1->text.c_str(),l1);
   strncpy(str2, lp2->text.c_str(),l2);
-/*
-  printf(" fb_list_compare : *lp1, *lp2 = %p %p\n",(void *)lp1,(void *)lp2);
-  printf(" fb_list_compare : l1, str1 = %i :%s:\n", l1, str1);
-  printf(" fb_list_compare : l2, str2 = %i :%s:\n", l2, str2);
-  printf(" fb_list_compare : str1[l1-2] = %c\n", str1[l1-2]);
-  printf(" fb_list_compare : str2[l2-2] = %c\n", str2[l2-2]);
-*/
+
   if(strcmp(str1,"./")==0) iret = true  ;
   else if(strcmp(str2,"./")==0) iret = false ;
-
   else if(strcmp(str1,"../")==0) iret = true;
   else if(strcmp(str2,"../")==0) iret = false;
-
   else if((str1[l1-2]=='/') && (str2[l2-2]!='/')) iret = true;
   else if((str1[l1-2]!='/') && (str2[l2-2]=='/')) iret = false;
-
   else if(strcmp(str1,str2)<0) iret = true;
   else iret = false ;
 
@@ -184,10 +172,6 @@ void GLUI_FileBrowser::fbreaddir(const char *d) {
   struct stat dr;
   int iret ;
 
-  printf("\n");
-  printf(" fbreaddir : list_filter = :%s:\n",list_filter.c_str());
-  printf("\n");
-
   if (list) {
     list->delete_all();
     if ((dir = opendir(d)) == NULL)
@@ -211,101 +195,32 @@ void GLUI_FileBrowser::fbreaddir(const char *d) {
       }
       closedir(dir);
 
-      printf(" List created.\n");
-      GLUI_List_Item  *p_item;
-      p_item = (GLUI_List_Item *)list->items_list.first_child();
-      while(p_item){
-        printf(" AA item : %p %p %p %p :%i :%s:  \n",p_item,
-                    p_item->parent(), p_item->next(), p_item->prev(),
-                    p_item->id, p_item->text.c_str() );
-        p_item = (GLUI_List_Item *)p_item->next();
-      }
-      printf("\n");
-
+//      GLUI_List_Item  *p_item;
+//      p_item = (GLUI_List_Item *)list->items_list.first_child();
 /*  Order List */
       {
         int n_list = i;
         int n ;
         GLUI_List_Item **p_list, *p_item;
-
 /* Setup pointers to text and sort */
-        printf(" Allocate pointer array\n");
         p_list = (GLUI_List_Item **)malloc(n_list*sizeof(*p_list));
-
-        printf(" Initialise pointer array\n");
         for(i=0;i<n_list;i++){ p_list[i] = list->get_item_ptr(i); }
-        for(i=0;i<n_list;i++){
-            p_item = p_list[i];
-            printf(" BB item : %p %p %p %p :%i :%s:  \n",p_item,
-                    p_item->parent(), p_item->next(), p_item->prev(),
-                    p_item->id, p_item->text.c_str() );
-        }
-        printf("\n");
-
-        printf(" Sort\n");
         qsort(p_list,n_list,sizeof(p_list[0]),fb_list_compare);
-        for(i=0;i<n_list;i++){
-            p_item = p_list[i];
-            printf(" CC item : %p %p %p %p :%i :%s:  \n",p_item,
-                    p_item->parent(), p_item->next(), p_item->prev(),
-                    p_item->id, p_item->text.c_str() );
-        }
-        printf("\n");
-
-        printf(" Unlist\n");
 /* Unlink list */
         for(i=0;i<n_list;i++){ p_list[i]->unlink(); }
-        for(i=0;i<n_list;i++){
-            p_item = p_list[i];
-            printf(" DD item : %p %p %p %p :%i :%s:  \n",p_item,
-                    p_item->parent(), p_item->next(), p_item->prev(),
-                    p_item->id, p_item->text.c_str() );
-        }
-        printf("\n");
-
-        n = n_list;
-        if(n>5) n=5;
-
-        printf(" Link\n");
 /* Relink in new order to parent and siblings */
         p_list[0]->link_this_to_parent_first(&list->items_list);
-//        p_list[0]->id = 0;
         for(i=1;i<n_list;i++){
           p_list[i]->link_this_to_sibling_next(p_list[i-1]);
-//          p_list[i]->id = i;
         }
-        for(i=0;i<n_list;i++){
-            p_item = p_list[i];
-            printf(" EE item : %p %p %p %p :%i :%s:  \n",p_item,
-                    p_item->parent(), p_item->next(), p_item->prev(),
-                    p_item->id, p_item->text.c_str() );
-        }
-        printf("\n");
-
-        p_item = (GLUI_List_Item *)list->items_list.first_child();
-        while(p_item){
-            printf(" FF item : %p %p %p %p :%i :%s:  \n",p_item,
-                        p_item->parent(), p_item->next(), p_item->prev(),
-                        p_item->id, p_item->text.c_str() );
-            p_item = (GLUI_List_Item *)p_item->next();
-        }
-        printf("\n");
-
+/* Renumber */
         p_item = (GLUI_List_Item *)list->items_list.first_child();
         i = 0;
         while(p_item){
-            p_item->id = i;
-            printf(" GG item : %p %p %p %p :%i :%s:  \n",p_item,
-                        p_item->parent(), p_item->next(), p_item->prev(),
-                        p_item->id, p_item->text.c_str() );
+            p_item->id = i++;
             p_item = (GLUI_List_Item *)p_item->next();
-            i++;
         }
-        printf("\n");
-
-        printf(" Free\n");
         free(p_list);
-        printf(" Exit\n");
       }
 /* End Order List */
     }
@@ -313,6 +228,7 @@ void GLUI_FileBrowser::fbreaddir(const char *d) {
 #endif
 }
 
+#if 0
 /* Private functions to add and delete child items of local_list */
 
 int GLUI_FileBrowser::add_list_item(GLUI_List_Item *local_list, int id, const char *text)
@@ -405,7 +321,7 @@ int GLUI_FileBrowser::print_list_all(GLUI_List_Item *local_list)
   printf("\n");
   return true;
 }
-
+#endif
 
 void ProcessFiles(const char *path_name)
 {
