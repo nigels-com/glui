@@ -933,7 +933,7 @@ int    GLUI_EditText::special_handler( int key,int modifiers )
 int    GLUI_EditText::find_word_break( int start, int direction )
 {
   int    i, j;
-  char   *breaks = " :-.,";
+  const char   *breaks = " :-.,";
   int     num_break_chars = (int)strlen(breaks), text_len = (int)text.length();
   int     new_pt;
 
@@ -1173,7 +1173,7 @@ void   GLUI_EditText::dump( FILE *out, const char *name )
 {
   fprintf( out,
            "%s (edittext@%p):  ins_pt:%d  subs:%d/%d  sel:%d/%d   len:%d\n",
-           name, this,
+           name, (void *)this,
            insertion_pt,
            substring_start,
            substring_end,
