@@ -1207,13 +1207,6 @@ private:
     int allow_change_dir;
     GLUI_List_Item  *local_list;
 
-    int add_list_item(GLUI_List_Item *list_item,
-                              int id, const char *text);
-    int delete_list_item(GLUI_List_Item *list_item);
-    int delete_list_all(GLUI_List_Item *local_list);
-    int copy_list(GLUI_List_Item p1, GLUI_List_Item p2);
-    int print_list_all(GLUI_List_Item *local_list);
-
 };
 
 /************************************************************/
@@ -2140,7 +2133,7 @@ public:
     GLUI_CB             obj_cb;
     int                 cb_click_type;
     int                 last_line;
-    long int            last_click_time;        /* Time of last mouse click */
+    long int            last_click_time;
 
     int  mouse_down_handler( int local_x, int local_y );
     int  mouse_up_handler( int local_x, int local_y, bool inside );

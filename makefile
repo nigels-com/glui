@@ -45,7 +45,6 @@ GLUI_OBJS = glui_add_controls.o glui_string.o glui.o glui_bitmap_img_data.o glui
 GLUI_LIB = lib/libglui.a
 
 GLUI_EXAMPLES = bin/example1 bin/example2 bin/example3 bin/example4 bin/example5 bin/example6
-#GLUI_EXAMPLES =  bin/example6
 
 GLUI_TOOLS = bin/ppm2array
 
