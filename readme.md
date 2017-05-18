@@ -13,6 +13,12 @@ made by Nigel Stewart in his "GLUI v2.2".
 WARNING: This version (2.3) introduces some incompatible changes with
 previous versions!!
 
+## Version 2.3leok7, May 18, 2017
+
+Forked original version to make it buildable in more modern IDEs (msvc2012,2015 and 2017)
+and clean up source code a bit (it is compiled originally with warning level 1 and seems 
+to have a lot of obvious and hidden bug). Work in progress.
+
 ## Version 2.36, November 4, 2007
 
 - License changed to the more permissive ZLIB license 
