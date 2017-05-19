@@ -68,23 +68,23 @@
     <_ProjectFileVersion>11.0.61030.0</_ProjectFileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(ProjectDir)..\bin\msvc2012\$(ProjectName)\$(PlatformShortName)\$(Configuration)\</OutDir>
+    <OutDir>$(ProjectDir)..\bin\msvc2012\$(PlatformShortName)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)..\build\msvc2012\$(ProjectName)\$(PlatformShortName)\$(Configuration)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(ProjectDir)..\bin\msvc2012\$(ProjectName)\$(PlatformShortName)\$(Configuration)\</OutDir>
+    <OutDir>$(ProjectDir)..\bin\msvc2012\$(PlatformShortName)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)..\build\msvc2012\$(ProjectName)\$(PlatformShortName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(ProjectDir)..\bin\msvc2012\$(ProjectName)\$(PlatformShortName)\$(Configuration)\</OutDir>
+    <OutDir>$(ProjectDir)..\bin\msvc2012\$(PlatformShortName)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)..\build\msvc2012\$(ProjectName)\$(PlatformShortName)\$(Configuration)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(ProjectDir)..\bin\msvc2012\$(ProjectName)\$(PlatformShortName)\$(Configuration)\</OutDir>
+    <OutDir>$(ProjectDir)..\bin\msvc2012\$(PlatformShortName)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)..\build\msvc2012\$(ProjectName)\$(PlatformShortName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -100,12 +100,12 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>
       </PrecompiledHeaderOutputFile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <PrecompiledHeaderFile />
       <WholeProgramOptimization>true</WholeProgramOptimization>
-      <DisableSpecificWarnings>4244;4305</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4305;4100;4505;4127;4702;4189</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
@@ -136,12 +136,12 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>
       </PrecompiledHeaderOutputFile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <PrecompiledHeaderFile />
       <WholeProgramOptimization>true</WholeProgramOptimization>
-      <DisableSpecificWarnings>4244;4305</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4305;4100;4505;4127;4702;4189</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
@@ -171,7 +171,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <PrecompiledHeaderFile />
-      <DisableSpecificWarnings>4244;4305</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4305;4100;4505;4127;4702;4189</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
@@ -201,7 +201,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <PrecompiledHeaderFile />
-      <DisableSpecificWarnings>4244;4305</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4305;4100;4505;4127;4702;4189</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>

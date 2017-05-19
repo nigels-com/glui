@@ -93,11 +93,11 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>
       </PrecompiledHeaderOutputFile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <PrecompiledHeaderFile />
-      <DisableSpecificWarnings>4244;4305</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4305;4100;4505;4127;4702;4189</DisableSpecificWarnings>
     </ClCompile>
     <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -120,11 +120,11 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>
       </PrecompiledHeaderOutputFile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <PrecompiledHeaderFile />
-      <DisableSpecificWarnings>4244;4305</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4305;4100;4505;4127;4702;4189</DisableSpecificWarnings>
     </ClCompile>
     <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -149,7 +149,7 @@
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <CompileAs>Default</CompileAs>
       <PrecompiledHeaderFile />
-      <DisableSpecificWarnings>4244;4305</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4305;4100;4505;4127;4702;4189</DisableSpecificWarnings>
     </ClCompile>
     <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -172,7 +172,7 @@
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <CompileAs>Default</CompileAs>
       <PrecompiledHeaderFile />
-      <DisableSpecificWarnings>4244;4305</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4305;4100;4505;4127;4702;4189</DisableSpecificWarnings>
     </ClCompile>
     <Lib>
       <SuppressStartupBanner>true</SuppressStartupBanner>
