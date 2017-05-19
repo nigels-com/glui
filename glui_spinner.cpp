@@ -126,6 +126,7 @@ void GLUI_Spinner::common_construct( GLUI_Node* parent, const GLUI_String &name,
   }
   else {
     assert(0); /* Did not pass in a valid data type */
+    return; /* in release mode assert is absent and without this return GLUI_EditText is called with uninitialized text_type */
   }
 
   user_id     = id;
