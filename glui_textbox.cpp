@@ -347,7 +347,7 @@ void    GLUI_TextBox::activate( int how )
     return;  /* Don't select everything if activated with mouse */
 
   sel_start    = 0;
-  sel_end      = text.length();
+  sel_end      = (int)text.length();
   insertion_pt = 0;
   if ( debug )
     dump( stdout, "<- ACTIVATE" );
@@ -441,7 +441,7 @@ void    GLUI_TextBox::draw( int x, int y )
   /* Begin Drawing Lines of Text */
   substring_start = 0;
   substring_end = 0;
-  text_length = text.length()-1;
+  text_length = (int)text.length()-1;
 
   /* Figure out how wide the box is */
   box_width = get_box_width();
@@ -499,7 +499,7 @@ void    GLUI_TextBox::draw( int x, int y )
 int    GLUI_TextBox::update_substring_bounds()
 {
   int box_width;
-  int text_len = text.length();
+  int text_len = (int)text.length();
   int old_start, old_end;
 
   old_start = substring_start;
@@ -679,7 +679,7 @@ int  GLUI_TextBox::find_insertion_pt( int x, int y )
   insert_x = x;
   insert_y = y;
 
-  int text_length = text.length()-1;
+  int text_length = (int)text.length()-1;
   int box_width = get_box_width();
 
   int sol = 0;
@@ -792,7 +792,7 @@ void     GLUI_TextBox::draw_insertion_pt()
 
   sol = 0;
   eol = 0;
-  text_length = text.length()-1;
+  text_length = (int)text.length()-1;
 
   //while (eol < text_length && text[eol] != '\n'
   //       && substring_width(sol, eol + 1) < box_width )
@@ -830,7 +830,7 @@ void     GLUI_TextBox::draw_insertion_pt()
                                           between the text and the box       **/
 
   curr_x += substring_width(sol,insertion_pt-1);
-  if (insertion_pt == text.length() && text[text.length()-1] == '\n'
+  if (insertion_pt == (int)text.length() && text[(int)text.length()-1] == '\n'
       || curr_x-this->x_abs > (w - 2 - GLUI_TEXTBOX_BOXINNERMARGINX)) { // Insert on the next line
     curr_x = this->x_abs + GLUI_TEXTBOX_BOXINNERMARGINX;
     line++;
@@ -950,7 +950,7 @@ int    GLUI_TextBox::special_handler( int key,int modifiers )
     // update keygoal_x!
   }
   else if ( key == GLUT_KEY_END ) {
-    insertion_pt = text.length();
+    insertion_pt = (int)text.length();
     // update keygoal_x!
   }
 
@@ -961,11 +961,11 @@ int    GLUI_TextBox::special_handler( int key,int modifiers )
     sel_start = sel_end = insertion_pt;
 
 
-  CLAMP( insertion_pt, 0, text.length()); /* Make sure insertion_pt
+  CLAMP( insertion_pt, 0, (int)text.length()); /* Make sure insertion_pt
                            is in bounds */
-  CLAMP( sel_start, 0, text.length()); /* Make sure insertion_pt
+  CLAMP( sel_start, 0, (int)text.length()); /* Make sure insertion_pt
                         is in bounds */
-  CLAMP( sel_end, 0, text.length()); /* Make sure insertion_pt
+  CLAMP( sel_end, 0, (int)text.length()); /* Make sure insertion_pt
                           is in bounds */
 
   /******** Now redraw text ***********/
@@ -987,7 +987,7 @@ int    GLUI_TextBox::find_word_break( int start, int direction )
 {
   int    i, j;
   char    breaks[] = " \n\t:-.,";
-  int     num_break_chars = (int)strlen(breaks), text_len = text.length();
+  int     num_break_chars = (int)strlen(breaks), text_len = (int)text.length();
   int     new_pt;
 
   /** If we're moving left, we have to start two back, in case we're either
@@ -1049,7 +1049,7 @@ void    GLUI_TextBox::set_text( const GLUI_String &new_text )
   text = new_text;
 
   substring_start = 0;
-  substring_end   = text.length() - 1;
+  substring_end   = (int)text.length() - 1;
   insertion_pt    = -1;
   sel_start       = 0;
   sel_end         = 0;
