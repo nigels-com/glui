@@ -34,11 +34,23 @@
 #ifndef GLUI_GLUI_H
 #define GLUI_GLUI_H
 
-// Having stdlib here first fixes some 'exit() redefined' errors on MSVC.NET
-// that come from old GLUT headers.
-#include <cstdlib>
+//Note: GCC is not required for this feature. It's just an indicator. 
+#ifdef __GNUC__
+//GLUI_GLX uses glXGetCurrentDisplay to find GLUT's chosen X display.
+//It will #include GL/glx.h and X11/Xlib.h. This covers all desktops.
+#ifndef GLUI_GLX
+#define GLUI_GLX
+#endif
+#endif
 
-#if defined(GLUI_FREEGLUT)
+#if defined(GLUT_API_VERSION) //|| defined(?)
+
+  // This is for applications that do not want GLUT
+  // #included for them and it should be used if an
+  // alternative back-end is selected. 
+  typedef struct GLUquadric GLUquadric;
+
+#elif defined(GLUI_FREEGLUT)
 
   // FreeGLUT does not yet work perfectly with GLUI
   //  - use at your own risk.
@@ -53,6 +65,10 @@
   #include <GL/openglut.h>
 
 #else 
+
+  // Having stdlib here first fixes some 'exit() redefined' errors on MSVC.NET
+  // that come from old GLUT headers.
+  #include <cstdlib>
 
   #ifdef __APPLE__
   #include <GLUT/glut.h>
@@ -462,6 +478,43 @@ private:
 
 /************************************************************/
 /*                                                          */
+/*                   Copy/Paste GLUI Class                  */
+/*                                                          */
+/************************************************************/
+
+class GLUIAPI GLUI_Clipboard_Object 
+{
+public:
+
+	GLUI_Clipboard_Object(const char *name);
+
+	/**
+	 * Typically @c name is CLIPBOARD or PRIMARY.
+	 * PRIMARY is available only on X11 systems, and
+	 * should be set whenever a selection is finalized.
+	 */
+	const GLUI_String name;
+	
+	/**
+	 * This is analogous to copying to the clipboard.
+	 */
+	void set_text(const char *sel, size_t len);	
+
+	/**
+	 * This is analogous to pasting from the clipboard, or
+	 * that is, getting the text on the clipboard to paste.
+	 */
+	bool get_text(GLUI_String &container);
+};
+
+/**
+ * These are built-in clipboards. On non X11-like systems
+ * @c GLUI_Selection is a "no-op" object.
+ */
+extern GLUI_Clipboard_Object GLUI_Clipboard, GLUI_Selection;
+
+/************************************************************/
+/*                                                          */
 /*                     Master GLUI Class                    */
 /*                                                          */
 /************************************************************/
@@ -504,28 +557,27 @@ public:
     void  set_left_button_glut_menu_control( GLUI_Control *control );
 
     /********** GLUT callthroughs **********/
-    /* These are the glut callbacks that we do not handle */
-
+    
     void set_glutReshapeFunc (void (*f)(int width, int height));
     void set_glutKeyboardFunc(void (*f)(unsigned char key, int x, int y));
     void set_glutSpecialFunc (void (*f)(int key, int x, int y));
     void set_glutMouseFunc   (void (*f)(int, int, int, int ));
 
-    void set_glutDisplayFunc(void (*f)()) {glutDisplayFunc(f);}
-    void set_glutTimerFunc(unsigned int millis, void (*f)(int value), int value)
-    { ::glutTimerFunc(millis,f,value);}
-    void set_glutOverlayDisplayFunc(void(*f)()){glutOverlayDisplayFunc(f);}
-    void set_glutSpaceballMotionFunc(Int3_CB f)  {glutSpaceballMotionFunc(f);}
-    void set_glutSpaceballRotateFunc(Int3_CB f)  {glutSpaceballRotateFunc(f);}
-    void set_glutSpaceballButtonFunc(Int2_CB f)  {glutSpaceballButtonFunc(f);}
-    void set_glutTabletMotionFunc(Int2_CB f)        {glutTabletMotionFunc(f);}
-    void set_glutTabletButtonFunc(Int4_CB f)        {glutTabletButtonFunc(f);}
-    /*    void set_glutWindowStatusFunc(Int1_CB f)        {glutWindowStatusFunc(f);} */
-    void set_glutMenuStatusFunc(Int3_CB f)            {glutMenuStatusFunc(f);}
-    void set_glutMenuStateFunc(Int1_CB f)              {glutMenuStateFunc(f);}
-    void set_glutButtonBoxFunc(Int2_CB f)              {glutButtonBoxFunc(f);}
-    void set_glutDialsFunc(Int2_CB f)                      {glutDialsFunc(f);}  
-  
+    /* These are the glut callbacks that we do not handle */
+
+    void set_glutDisplayFunc(void (*f)());
+    void set_glutTimerFunc(unsigned int millis, void (*f)(int value), int value);
+    void set_glutOverlayDisplayFunc(void(*f)());
+    void set_glutSpaceballMotionFunc(Int3_CB f);
+    void set_glutSpaceballRotateFunc(Int3_CB f);
+    void set_glutSpaceballButtonFunc(Int2_CB f);
+    void set_glutTabletMotionFunc(Int2_CB f);
+    void set_glutTabletButtonFunc(Int4_CB f);
+    void set_glutWindowStatusFunc(Int1_CB f);
+    void set_glutMenuStatusFunc(Int3_CB f);
+    void set_glutMenuStateFunc(Int1_CB f);
+    void set_glutButtonBoxFunc(Int2_CB f);
+    void set_glutDialsFunc(Int2_CB f);  
 
     GLUI          *create_glui( const char *name, long flags=0, int x=-1, int y=-1 ); 
     GLUI          *create_glui_subwindow( int parent_window, long flags=0 );
@@ -539,7 +591,16 @@ public:
 
     float          get_version() { return GLUI_VERSION; }
 
-    void glui_setIdleFuncIfNecessary();
+	//Idle is needed to host the X11 copy-paste selection-owner.
+	//It's really no big deal. The scheduler will divide time up
+	//and unless "vsync" is off a continuously rendering client
+	//will wait for the "vertical-blank."
+	//GLUT isn't a good fit for passive applications, and it is
+	//historically for full-motion 3-D displays.
+	//Clients can figure out a wait solution in their Idle function.
+	//freeglut provides a default idle, which it does not expose,
+	//but it's open-souce and so copy-friendly.
+    //void glui_setIdleFuncIfNecessary();
 
 private:
     GLUI_Node     glut_windows;
@@ -810,7 +871,12 @@ public:
     bool            collapsible, is_open;
     GLUI_Node       collapsed_node;
     bool            hidden; /* Collapsed controls (and children) are hidden */
-    int             char_widths[CHAR_WIDTH_HASH_SIZE][2]; /* Character width hash table */
+
+	//SCHEDULED FOR REMOVAL
+	//2017: Well this is embarrassing.
+    //int             char_widths[CHAR_WIDTH_HASH_SIZE][2]; /* Character width hash table */
+	//This is just to not have to think about this.
+	unsigned char char_widths[128];
 
 public:
     /*** Get/Set values ***/
@@ -866,8 +932,7 @@ public:
     int          set_to_glut_window();
     void         restore_window( int orig );
     void         translate_and_draw_front();
-    void         translate_to_origin() 
-    {glTranslatef((float)x_abs+.5,(float)y_abs+.5,0.0);}
+    void         translate_to_origin();
     virtual void draw( int x, int y )=0;
     void         set_font( void *new_font );
     void        *get_font();
@@ -936,7 +1001,7 @@ public:
         collapsible    = false;
         is_open        = true;
         hidden         = false;
-        memset(char_widths, -1, sizeof(char_widths)); /* JVK */
+        memset(char_widths,0xff,sizeof(char_widths)); /* JVK */
         int i;
         for( i=0; i<GLUI_DEF_MAX_ARRAY; i++ )
             float_array_val[i] = last_live_float_array[i] = 0.0;
@@ -1590,19 +1655,20 @@ public:
     int                 substring_start; /*substring that gets displayed in box*/
     int                 substring_end;  
     int                 sel_start, sel_end;  /* current selection */
-    int                 num_periods;
+    int                 __removing__num_periods;
     int                 last_insertion_pt;
     float               float_low, float_high;
     int                 int_low, int_high;
     GLUI_Spinner       *spinner;
     int                 debug;
-    int                 draw_text_only;
+    int                 __removing__draw_text_only;
 
 
     int  mouse_down_handler( int local_x, int local_y ) override;
     int  mouse_up_handler( int local_x, int local_y, bool inside ) override;
     int  mouse_held_down_handler( int local_x, int local_y, bool inside ) override;
     int  key_handler( unsigned char key,int modifiers ) override;
+  void _kh_erase( int start, int end );
     int  special_handler( int key, int modifiers ) override;
 
     void activate( int how ) override;
@@ -1614,7 +1680,7 @@ public:
 
     int  find_word_break( int start, int direction );
     int  substring_width( int start, int end );
-    void clear_substring( int start, int end );
+    
     int  find_insertion_pt( int x, int y );
     int  update_substring_bounds();
     void update_and_draw_text();
@@ -1674,7 +1740,7 @@ protected:
         substring_start       = 0;
         data_type             = GLUI_EDITTEXT_TEXT;
         substring_end         = 2;
-        num_periods           = 0;
+        //num_periods           = 0;
         has_limits            = GLUI_LIMIT_NONE;
         sel_start             = 0;
         sel_end               = 0;
@@ -1683,7 +1749,7 @@ protected:
         spacebar_mouse_click  = false;
         spinner               = NULL;
         debug                 = false;
-        draw_text_only        = false;
+        //draw_text_only        = false;
     }
     void common_construct( GLUI_Node *parent, const char *name, 
                            int data_type, int live_type, void *live_var,
@@ -2001,7 +2067,7 @@ public:
     int                 sel_start, sel_end;  /* current selection */
     int                 last_insertion_pt;
     int                 debug;
-    int                 draw_text_only;
+    int                 __removing__draw_text_only;
     int                 tab_width;
     int                 start_line;
     int                 num_lines;
@@ -2074,7 +2140,7 @@ protected:
         spacebar_mouse_click  = false;
         scrollbar             = NULL;
         debug                 = false;
-        draw_text_only        = false;
+        //draw_text_only        = false;
     }
     void common_construct(
         GLUI_Node *parent, GLUI_String *live_var, 
@@ -2119,7 +2185,7 @@ public:
 
     GLUI_String         orig_text;
     int                 debug;
-    int                 draw_text_only;
+    int                 __removing__draw_text_only;
     int                 start_line;
     int                 num_lines;
     int                 curr_line;
@@ -2129,8 +2195,9 @@ public:
     GLUI_Control        *associated_object;
     GLUI_CB             obj_cb;
     int                 cb_click_type;
-    int                 last_line;
-    int                 last_click_time;
+	//Removing unreliable time-based double-click.
+    int                 __removed__last_line;
+    int                 __removed__last_click_time;
 
     int  mouse_down_handler( int local_x, int local_y ) override;
     int  mouse_up_handler( int local_x, int local_y, bool inside ) override;
@@ -2186,10 +2253,10 @@ protected:
         spacebar_mouse_click  = false;
         scrollbar             = NULL;
         debug                 = false;
-        draw_text_only        = false;
+     //   draw_text_only        = false;
         cb_click_type         = GLUI_SINGLE_CLICK;
-        last_line             = -1;
-        last_click_time       = 0;
+     //   last_line             = -1;
+     //   last_click_time       = 0;
         associated_object     = NULL;
     };
     void common_construct(
