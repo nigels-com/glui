@@ -38,7 +38,7 @@
 
 GLUI_EditText::GLUI_EditText( GLUI_Node *parent, const char *name,
                              int data_type, void *live_var,
-                             int id, GLUI_CB callback )
+                             GLUI_CB callback )
 {
   if (data_type == GLUI_EDITTEXT_TEXT) {
     live_type = GLUI_LIVE_TEXT;
@@ -55,57 +55,57 @@ GLUI_EditText::GLUI_EditText( GLUI_Node *parent, const char *name,
   else if (data_type == GLUI_EDITTEXT_FLOAT) {
     live_type = GLUI_LIVE_FLOAT;
   }
-  common_construct( parent, name, data_type, live_type, live_var, id, callback );
+  common_construct( parent, name, data_type, live_type, live_var, callback );
 }
 
 /****************************** GLUI_EditText::GLUI_EditText() **********/
 
 GLUI_EditText::GLUI_EditText( GLUI_Node *parent, const char *name,
-                              int text_type, int id, GLUI_CB callback )
+                              int text_type, GLUI_CB callback )
 {
-  common_construct( parent, name, text_type, GLUI_LIVE_NONE, 0, id, callback);
+  common_construct( parent, name, text_type, GLUI_LIVE_NONE, 0, callback);
 }
 
 /****************************** GLUI_EditText::GLUI_EditText() **********/
 
 GLUI_EditText::GLUI_EditText( GLUI_Node *parent, const char *name,
                               int *live_var,
-                              int id, GLUI_CB callback )
+                              GLUI_CB callback )
 {
-  common_construct( parent, name, GLUI_EDITTEXT_INT, GLUI_LIVE_INT, live_var, id, callback);
+  common_construct( parent, name, GLUI_EDITTEXT_INT, GLUI_LIVE_INT, live_var, callback);
 }
 
 /****************************** GLUI_EditText::GLUI_EditText() **********/
 
 GLUI_EditText::GLUI_EditText( GLUI_Node *parent, const char *name,
                               float *live_var,
-                              int id, GLUI_CB callback )
+                              GLUI_CB callback )
 {
-  common_construct( parent, name, GLUI_EDITTEXT_FLOAT, GLUI_LIVE_FLOAT, live_var, id, callback);
+  common_construct( parent, name, GLUI_EDITTEXT_FLOAT, GLUI_LIVE_FLOAT, live_var, callback);
 }
 
 /****************************** GLUI_EditText::GLUI_EditText() **********/
 
 GLUI_EditText::GLUI_EditText( GLUI_Node *parent, const char *name,
                               char *live_var,
-                              int id, GLUI_CB callback )
+                              GLUI_CB callback )
 {
-  common_construct( parent, name, GLUI_EDITTEXT_TEXT, GLUI_LIVE_TEXT, live_var, id, callback);
+  common_construct( parent, name, GLUI_EDITTEXT_TEXT, GLUI_LIVE_TEXT, live_var, callback);
 }
 
 /****************************** GLUI_EditText::GLUI_EditText() **********/
 
 GLUI_EditText::GLUI_EditText( GLUI_Node *parent, const char *name,
                               std::string &live_var,
-                              int id, GLUI_CB callback )
+                              GLUI_CB callback )
 {
-  common_construct( parent, name, GLUI_EDITTEXT_TEXT, GLUI_LIVE_STRING, &live_var, id, callback);
+  common_construct( parent, name, GLUI_EDITTEXT_TEXT, GLUI_LIVE_STRING, &live_var, callback);
 }
 
 /****************************** GLUI_EditText::common_construct() **********/
 
 void GLUI_EditText::common_construct( GLUI_Node *parent, const char *name,
-                                      int data_t, int live_t, void *data, int id,
+                                      int data_t, int live_t, void *data,
                                       GLUI_CB cb )
 {
   common_init();
@@ -114,7 +114,6 @@ void GLUI_EditText::common_construct( GLUI_Node *parent, const char *name,
   live_type   = live_t;
   data_type   = data_t;
   ptr_val     = data;
-  user_id     = id;
   callback    = cb;
 
 
@@ -519,7 +518,7 @@ void    GLUI_EditText::deactivate()
       /* THE CODE BELOW IS FROM WHEN SPINNER ALSO MAINTAINED CALLBACKS    */
       if ( spinner == NULL ) {   /** Are we independent of a spinner?  **/
         if ( callback ) {
-          callback( this );
+          callback();
         }
       }
       else {                      /* We're attached to a spinner */

@@ -234,16 +234,16 @@ int main(int argc, char* argv[])
 								 x, and y */
   new GLUI_StaticText( glui, "GLUI Example 2" );
   new GLUI_Separator( glui );
-  checkbox = new GLUI_Checkbox( glui, "Wireframe", &wireframe, 1, control_cb );
-  spinner  = new GLUI_Spinner( glui, "Segments:", &segments, 2, control_cb );
+  checkbox = new GLUI_Checkbox( glui, "Wireframe", &wireframe, [=]() { printf("Checkbox"); });
+  spinner  = new GLUI_Spinner( glui, "Segments:", &segments, [=]() { printf("Spinner"); });
   spinner->set_int_limits( 3, 60 );
-  edittext = new GLUI_EditText( glui, "Text:", text, 3, control_cb );
+  edittext = new GLUI_EditText( glui, "Text:", text, [=]() { printf("EditText"); });
   GLUI_Panel *obj_panel = new GLUI_Panel( glui, "Object Type" );
-  radio = new GLUI_RadioGroup( obj_panel,&obj,4,control_cb );
+  radio = new GLUI_RadioGroup( obj_panel,&obj, [=]() { printf("RadioGroup"); });
   new GLUI_RadioButton( radio, "Sphere" );
   new GLUI_RadioButton( radio, "Torus" );
   new GLUI_RadioButton( radio, "Teapot" );
-  new GLUI_Button( glui, "Quit", 0,(GLUI_Update_CB)exit );
+  new GLUI_Button( glui, "Quit", []() { exit(0); } );
  
   glui->set_main_gfx_window( main_window );
 

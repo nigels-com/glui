@@ -28,7 +28,6 @@ GLUI_TreePanel::GLUI_TreePanel(GLUI_Node *parent, const char *name,
   common_init();
 
   set_name( name );
-  user_id    = -1;
 
   if ( !open ) {
     is_open = false;

@@ -33,10 +33,9 @@
 /****************************** GLUI_Button::GLUI_Button() **********/
 
 GLUI_Button::GLUI_Button( GLUI_Node *parent, const char *name,
-                          int id, GLUI_CB cb )
+                          GLUI_CB cb )
 {
   common_init();
-  user_id     = id;
   callback    = cb;
   set_name( name );
   currently_inside = false;

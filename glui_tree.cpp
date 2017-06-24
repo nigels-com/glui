@@ -38,7 +38,6 @@ GLUI_Tree::GLUI_Tree(GLUI_Node *parent, const char *name,
   GLUI_Column     *col;
 
   this->set_name( name );
-  this->user_id    = -1;
 
   if ( NOT open ) {
     this->is_open = false;

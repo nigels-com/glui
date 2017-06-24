@@ -57,46 +57,43 @@ FIXME: there's a heck of a lot of duplication between this and glui_scrollbar.cp
 /****************************** GLUI_Spinner::GLUI_Spinner() ****************/
 
 GLUI_Spinner::GLUI_Spinner( GLUI_Node* parent, const char *name,
-                            int data_type, int id, GLUI_CB callback )
+                            int data_type, GLUI_CB callback )
 {
-  common_construct(parent, name, data_type, NULL, id, callback);
+  common_construct(parent, name, data_type, NULL, callback);
 }
 
 /****************************** GLUI_Spinner::GLUI_Spinner() ****************/
 
 GLUI_Spinner::GLUI_Spinner( GLUI_Node* parent, const char *name,
-                            int *live_var, int id, GLUI_CB callback )
+                            int *live_var, GLUI_CB callback )
 {
-  common_construct(parent, name, GLUI_SPINNER_INT, live_var, id, callback);
+  common_construct(parent, name, GLUI_SPINNER_INT, live_var, callback);
 }
 
 /****************************** GLUI_Spinner::GLUI_Spinner() ****************/
 
 GLUI_Spinner::GLUI_Spinner( GLUI_Node* parent, const char *name,
-             float *live_var, int id, GLUI_CB callback )
+             float *live_var, GLUI_CB callback )
 {
-  common_construct(parent, name, GLUI_SPINNER_FLOAT, live_var, id, callback);
+  common_construct(parent, name, GLUI_SPINNER_FLOAT, live_var, callback);
 }
 
 /****************************** GLUI_Spinner::GLUI_Spinner() ****************/
 
 GLUI_Spinner::GLUI_Spinner( GLUI_Node *parent, const char *name,
                             int data_t, void *live_var,
-                            int id, GLUI_CB callback )
+                            GLUI_CB callback )
 {
-  common_construct(parent, name, data_t, live_var, id, callback);
+  common_construct(parent, name, data_t, live_var, callback);
 }
 
 /****************************** GLUI_Spinner::common_construct() ************/
 
 void GLUI_Spinner::common_construct( GLUI_Node* parent, const char *name,
                                      int data_t, void *data,
-                                     int id, GLUI_CB cb )
+                                     GLUI_CB cb )
 {
   common_init();
-
-  if ( NOT strcmp( name, "Spinner Test" ))
-    id=id;
 
   int text_type;
   if ( data_t == GLUI_SPINNER_INT ) {
@@ -109,7 +106,6 @@ void GLUI_Spinner::common_construct( GLUI_Node* parent, const char *name,
     assert(0); /* Did not pass in a valid data type */
   }
 
-  user_id     = id;
   data_type   = data_t;
   callback    = cb;
   set_name( name );
@@ -118,7 +114,7 @@ void GLUI_Spinner::common_construct( GLUI_Node* parent, const char *name,
   parent->add_control( this );
 
   GLUI_EditText *txt =
-    new GLUI_EditText( this, name, text_type, data, id, cb);
+    new GLUI_EditText( this, name, text_type, data, cb);
 
   edittext    = txt;  /* Link the edittext to the spinner */
   /*      control->ptr_val     = data;               */

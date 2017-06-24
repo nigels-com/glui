@@ -38,14 +38,12 @@
 
 GLUI_Checkbox::GLUI_Checkbox( GLUI_Node *parent,
                               const char *name, int *value_ptr,
-                              int id,
                               GLUI_CB cb )
 {
   common_init();
 
   set_ptr_val( value_ptr );
   set_name( name );
-  user_id    = id;
   callback   = cb;
 
   parent->add_control( this );
