@@ -524,8 +524,10 @@ void GLUI_Main::idle_func()
 	//X11 needs the owner of the the selection to process
 	//SelectionRequest events on a fulltime basis.
 	//NOTE that idle is entered
+  #ifndef __APPLE__
 	extern void glui_clipboard_try_SelectionRequest();
 	glui_clipboard_try_SelectionRequest();
+  #endif
 	
   GLUI *glui;
 

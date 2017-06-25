@@ -280,9 +280,11 @@ int GLUI_EditText::key_handler( unsigned char key,int modifiers )
 	
 		if(sel_end==sel_start)
 		return true;
-				
+		
+    #ifndef __APPLE__
 		GLUI_Clipboard.set_text(text.c_str()+leftmost,rightmost-leftmost);
-			
+    #endif
+
 		if(key == CTRL('x')) //CUT?
 		{
 			_kh_erase(leftmost,rightmost);
@@ -291,6 +293,7 @@ int GLUI_EditText::key_handler( unsigned char key,int modifiers )
    
 	case CTRL('v'): //"PASTE"	
 	{
+    #ifndef __APPLE__
 		GLUI_String v;
 		if(GLUI_Clipboard.get_text(v))
 		{
@@ -305,6 +308,7 @@ int GLUI_EditText::key_handler( unsigned char key,int modifiers )
 			//THIS IS NOT THE PLACE TO CHANGE THE SUBSTRING END??
 			substring_end+=v.size();
 		}
+    #endif
 		break;
 	}
 	case CTRL('e'): return special_handler(GLUT_KEY_END,0);

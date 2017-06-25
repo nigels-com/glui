@@ -38,9 +38,9 @@
 #ifdef __GNUC__
 //GLUI_GLX uses glXGetCurrentDisplay to find GLUT's chosen X display.
 //It will #include GL/glx.h and X11/Xlib.h. This covers all desktops.
-#ifndef GLUI_GLX
-#define GLUI_GLX
-#endif
+//#ifndef GLUI_GLX
+//#define GLUI_GLX
+//#endif
 #endif
 
 #if defined(GLUT_API_VERSION) //|| defined(?)
