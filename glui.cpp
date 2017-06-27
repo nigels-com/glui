@@ -696,6 +696,7 @@ void    GLUI_Main::keyboard(unsigned char key, int x, int y)
   if ( key == '\t' AND !mouse_button_down AND
        (!active_control || !active_control->wants_tabs())) {
     if ( curr_modifiers & GLUT_ACTIVE_SHIFT ) {
+      // Note that shift-tab doesn't seem to work on Mac
       new_control = find_prev_control( active_control );
     }
     else {

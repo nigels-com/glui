@@ -153,12 +153,6 @@ const char text_box[] =
  ";
 */
 
-/***************************************** myGlutDisplay() *****************/
-
-void textbox_cb(GLUI_Control *control) {
-    
-}
-
 /**************************************** main() ********************/
 
 int main(int argc, char* argv[])
@@ -207,12 +201,13 @@ int main(int argc, char* argv[])
   hah->add_item(5,"Tree");
   hah->add_item(6,"List");
   hah->add_item(7,"FileBrowser");
+
   new GLUI_StaticText(ep,"Open Text File:");
   fb = new GLUI_FileBrowser(ep, "", false, [&]()
     {
-      int i = 0;
       std::string text;
       std::string file_name = fb->get_file();
+      printf("Browse file: %s\n", file_name.c_str());
       FILE *file = fopen(file_name.c_str(),"r"); 
       if (file == NULL) 
         printf("Error opening file\n");
@@ -221,15 +216,14 @@ int main(int argc, char* argv[])
         do {
           c = getc(file);
           text += c;
-          i++;
         } while (c != EOF);
         fclose(file);
       } 
       moo->set_text(text.c_str());
       glutPostRedisplay();
     });
-
   fb->set_h(180);
+
   hah->set_h(180);
   new GLUI_Column(ep,false); 
 

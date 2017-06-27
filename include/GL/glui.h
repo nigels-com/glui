@@ -1267,7 +1267,6 @@ public:
 
     /*   void set_name( const char *text )   { panel.set_name( text ); }; */
     void update_size() override;
-    void set_id(int i) override { id = i; }
     void set_level(int l) { level = l; }
     void set_format(int f) { format = f; }
     void set_current(int c) { is_current = c; }

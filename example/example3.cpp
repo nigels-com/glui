@@ -381,10 +381,7 @@ int main(int argc, char* argv[])
         cmd_line->set_w( 400 );  /** Widen 'command line' control **/
 
         GLUI_Panel *panel = new GLUI_Panel(cmd_line_glui,"", GLUI_PANEL_NONE);
-        new GLUI_Button(panel, "Clear History", [&]() 
-          { 
-            cmd_line->reset_history();
-          });
+        new GLUI_Button(panel, "Clear History", [&]() { cmd_line->reset_history(); });
         new GLUI_Column(panel, false);
         new GLUI_Button(panel, "Close", [&]() 
           {

@@ -168,7 +168,6 @@ void GLUI_TreePanel::initNode(GLUI_Tree *temp)
              dynamic_cast<GLUI_TreePanel*>(temp->parent())) {
     child_number = ++root_children;
   }
-  temp->set_id(uniqueID());     // -1 if unset
   temp->set_level(level);
   temp->set_child_number(child_number);
 }
