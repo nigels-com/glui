@@ -241,7 +241,7 @@ void lightEnable(int enable, GLenum light, GLUI_Control * control)
 {
   if (enable)
   {
-    gllEnable( light );
+    glEnable( light );
     if (control) control->enable();
   }
   else
@@ -355,21 +355,20 @@ int main(int argc, char* argv[])
                            &light0_diffuse[2],std::bind(lightIntensity, light0_diffuse, std::cref(light0_intensity), GL_LIGHT0));
   sb->set_float_limits(0,1);
 
-  new GLUI_Checkbox( light1, "Enabled", &light1_enabled, std::bind(lightEnable, std::cref(light1_enabled), GL_LIGHT1, light1_spinner);
+  new GLUI_Checkbox( light1, "Enabled", &light1_enabled, std::bind(lightEnable, std::cref(light1_enabled), GL_LIGHT1, light1_spinner));
 
   light1_spinner = 
-    new GLUI_Spinner( light1, "Intensity:",
-                      &light1_intensity,
-                      light1Intensity );
+    new GLUI_Spinner( light1, "Intensity:", 
+                      &light1_intensity, std::bind(lightIntensity, light1_diffuse, std::cref(light1_intensity), GL_LIGHT1) );
   light1_spinner->set_float_limits( 0.0, 1.0 );
   sb = new GLUI_Scrollbar( light1, "Red",GLUI_SCROLL_HORIZONTAL,
-                           &light1_diffuse[0],light1Intensity);
+                          &light1_intensity, std::bind(lightIntensity, light1_diffuse, std::cref(light1_intensity), GL_LIGHT1) );
   sb->set_float_limits(0,1);
   sb = new GLUI_Scrollbar( light1, "Green",GLUI_SCROLL_HORIZONTAL,
-                           &light1_diffuse[1],light1Intensity);
+                          &light1_intensity, std::bind(lightIntensity, light1_diffuse, std::cref(light1_intensity), GL_LIGHT1) );
   sb->set_float_limits(0,1);
   sb = new GLUI_Scrollbar( light1, "Blue",GLUI_SCROLL_HORIZONTAL,
-                           &light1_diffuse[2],light1Intensity);
+                          &light1_intensity, std::bind(lightIntensity, light1_diffuse, std::cref(light1_intensity), GL_LIGHT1) );
   sb->set_float_limits(0,1);
 
 
