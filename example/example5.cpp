@@ -392,9 +392,6 @@ int main(int argc, char* argv[])
   /*** Disable/Enable buttons ***/
   new GLUI_Button( glui, "Disable movement", [&]() { glui2->disable(); } );
   new GLUI_Button( glui, "Enable movement",  [&]() { glui2->enable(); } );
-
-    
-
   new GLUI_Button( glui, "Hide", [&]() { glui2->hide(); } );
   new GLUI_Button( glui, "Show", [&]() { glui2->show(); } );
 
