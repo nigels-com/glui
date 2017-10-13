@@ -3,10 +3,8 @@ dist: trusty
 sudo: false
 os:
     - linux
-    - osx
 compiler:
     - gcc
-    - clang
 
 env:
   global:
