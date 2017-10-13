@@ -40,6 +40,4 @@ addons:
       name: "nigels-com/glui"
       description: "GLUI Coverity build via Travis CI"
     notification_email: nigels.com@gmail.com
-    build_command_prepend: "rm -Rf build && mkdir build && cd build && cmake -G 'Unix Makefiles' .. && popd"
-    build_command:   "pushd build && make && popd"
     branch_pattern: coverity_scan
