@@ -8,6 +8,16 @@ compiler:
     - gcc
     - clang
 
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "E1m+lEwK0rT3A73ZA9exBn+tJKxs7HCe9b8Yfbk2Vo0JTVFyrjOBXb/Xhh0ZlJyRPwCi7CNtR0oIXMTsHCz+AJzpqT28KsqOi9e+LqKcpgx/Ov+5Fcvr8CirKZ+FbgLcYo2mo3ZhmzbQZlIe3UeHV9303IW+2+879ewwE1XZSWKxZmX2S0CNVfK9B2SDVYEtxovHfe6CPG4oGSGJ/gClVrOmgFjQHgOnwey0DFEpx6/f6TrOgYwFv24ATy8z5wFTf02/S06lurqrBFzifBxmDkaM35guGSQgE0mrsgyzYoGe0FPQ/ulvJKxtNUlvUPZyEnd8zx/8x1EUKYAauPzSFFiTPf62ejvqcoAh6UKwd9Rs9zwnjTp9EiNetQ8xtCilcXM1bgZmuAdvpkuXq9TresVYKREzFOFUm4DtSR/eKW+f2gl/ffeYPCuR7FH/kg1OsNQ27dlnE/2bHWJ0HAKQOIsp4YUTuM0MFh2XUOXcORMvtPtzcFsbZpU5p/h+4tnWnXygj78keQV+QAofYIHdIQJiX15KiEIoEkkP3NXOhL4wAg7QaCLA3HISTtifOILoD74TNohnKRlAf+mmAGra5jjfEx9Tii144pWeW2Opgy64cGJpgnUEzi79XYoGdLvvpnMKv1yBOnVzEcO79HR7mKq0L71XsAUm6IazUeP4VVk="
+
+before_install:
+      - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+
+
 script:
     - if [ "$TRAVIS_OS_NAME" == "linux" ]; then CPPFLAGS=-DGLUI_FREEGLUT              make; fi
     - if [ "$TRAVIS_OS_NAME" == "osx" ];   then CPPFLAGS=-Wno-deprecated-declarations make; fi
@@ -15,6 +25,7 @@ script:
     - pushd build && git clean -xdf . && cmake -G 'Unix Makefiles' .. && make && popd
 
 addons:
+
   apt:
     packages:
     - git
@@ -23,3 +34,12 @@ addons:
     - libegl1-mesa-dev
     - libxi-dev
     - freeglut3-dev
+
+  coverity_scan:
+    project:
+      name: "nigels-com/glui"
+      description: "GLUI Coverity build via Travis CI"
+    notification_email: nigels.com@gmail.com
+    build_command_prepend: "rm -Rf build && mkdir build && cd build && cmake -G 'Unix Makefiles' .. && popd"
+    build_command:   "pushd build && make && popd"
+    branch_pattern: coverity_scan
