@@ -25,6 +25,8 @@ int main_window;
 int num_display  = 0;
 int num_format  = 0;
 int enable_textbox = 0;
+std::string fb_filter = "";
+
 GLUI_StaticText  *text;
 GLUI_List        *hah;
 GLUI_TextBox     *moo;
@@ -32,6 +34,8 @@ GLUI             *tree;
 GLUI_TreePanel   *tp;
 GLUI_FileBrowser *fb;
 GLUI_EditText    *bedit;
+GLUI_EditText    *edittext;
+
 
 const char general[] =
   "GLUI 2.3 Widgets\n"
@@ -267,7 +271,13 @@ void control_cb(int control) {
   }
 }
 void textbox_cb(GLUI_Control *control) {
-    printf("Got textbox callback\n");
+//    printf("Got textbox callback\n");
+}
+void filter_cb(GLUI_Control *control) {
+//    printf("Got filter callback\n");
+//    printf(" fb_filter = :%s:\n",fb_filter.c_str());
+    fb->set_filter(fb_filter.c_str());
+    fb->fbreaddir("./");
 }
 
 //void out_of_memory() {
@@ -297,6 +307,10 @@ int main(int argc, char* argv[])
   fb = new GLUI_FileBrowser(ep, "", false, 7, control_cb);
   fb->set_h(180);
   hah->set_h(180);
+
+  edittext = new GLUI_EditText( ep, "Filter:",fb_filter,99,filter_cb );
+  edittext->set_w( 150 );
+
   new GLUI_Column(ep,false);
 
   moo = new GLUI_TextBox(ep,true,1,textbox_cb);
