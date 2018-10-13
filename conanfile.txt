@@ -1,0 +1,8 @@
+[requires]
+glut/3.0.0@bincrafters/testing
+
+[generators]
+cmake
+
+[options]
+glut:shared=False

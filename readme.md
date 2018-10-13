@@ -13,6 +13,16 @@ made by Nigel Stewart in his "GLUI v2.2".
 WARNING: This version (2.3) introduces some incompatible changes with
 previous versions!!
 
+## In development - October 2018
+
+- Conan build
+
+    $ mkdir build
+    $ conan install ..
+    $ cmake ..
+    $ make -j4
+
+
 ## Version 2.36, November 4, 2007
 
 - License changed to the more permissive ZLIB license 

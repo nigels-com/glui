@@ -1,7 +1,11 @@
-cmake_minimum_required(VERSION 2.8.12)
-
 project(glui)
 set(PROJECT_VERSION 2.37)
+
+cmake_minimum_required(VERSION 2.8.12)
+
+# Conan Preamble
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
 
 find_package(GLUT REQUIRED)
 find_package(OpenGL REQUIRED)
