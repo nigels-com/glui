@@ -17,11 +17,10 @@ previous versions!!
 
 - Conan build
 
-
-    $ mkdir build
-    $ conan install ..
-    $ cmake ..
-    $ make -j4
+        $ mkdir build
+        $ conan install ..
+        $ cmake ..
+        $ make -j4
 
 
 ## Version 2.36, November 4, 2007
