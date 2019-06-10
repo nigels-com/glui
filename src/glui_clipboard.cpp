@@ -88,6 +88,7 @@ struct glui_clipboard_x11
 glui_clipboard_x11::selection glui_clipboard_x11::selected; 
 static void glui_clipboard_try_SelectionRequest(int ms=250)
 {
+	#ifdef GLUI_GLX	
 	if(!glui_clipboard_x11::d) 
 	return; 	
 	::Atom xa;
