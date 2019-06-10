@@ -119,6 +119,7 @@
 #define NOMINMAX
 #include <windows.h> //glui_internal.h is the PCH file.
 #else
+#include <unistd.h> //usleep
 #ifndef GLUI_NOGLX
 #define GLUI_GLX
 #include <GL/glx.h>

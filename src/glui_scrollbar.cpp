@@ -266,7 +266,6 @@ void UI::ScrollBar::_draw()
 void UI::ScrollBar::draw_scroll_arrow(int arrowtype, int x, int y)
 {
 	//NOTE: These figures use 16 for UI_SCROLL_ARROW_SIZE.
-	float offset = 0;
 	const float L = 3.5f,HC = 7.f,R = 10.5f;
 	const float T = 4.5f,VC = 8.f,B = 11.5;
 	enum{ c=1 }; //2019 (Maybe draw_raised_box changed?)
@@ -280,7 +279,7 @@ void UI::ScrollBar::draw_scroll_arrow(int arrowtype, int x, int y)
 
 	const float *tri = NULL;
 
-	switch(arrowtype)
+	int offset = 0; switch(arrowtype)
 	{
 	case TOP:
 
@@ -334,30 +333,30 @@ void UI::ScrollBar::draw_scroll_arrow(int arrowtype, int x, int y)
 	//HACK? Adjust "verts" for UI_SCROLL_ARROW_SIZE.
 	offset+=UI_SCROLL_ARROW_SIZE-16;
 
-	glTranslatef(x+offset,y+offset+press,0);
+	glTranslated(x+offset,y+offset+press,0);
 	glColor3ubv(color);
 	glBegin(GL_TRIANGLES);
 	glVertex2fv(tri);
 	glVertex2fv(tri+2); glVertex2fv(tri+4);
 	glEnd();
-	glTranslatef(-(x+offset),-(y+offset+press),0);
+	glTranslated(-(x+offset),-(y+offset+press),0);
 
 	if(!enabled) // once more!
 	{ 
-		glTranslatef(x+offset,y,0);
+		glTranslated(x+offset,y,0);
 		glColor3ubv(gray);
 		glBegin(GL_TRIANGLES);
 		glVertex2fv(tri);
 		glVertex2fv(tri+2); glVertex2fv(tri+4);
 		glEnd();
-		glTranslatef(-x,-y,0);
+		glTranslated(-x,-y,0);
 	}
 }
 
 void UI::ScrollBar::draw_scroll(int xx, int yy, int ww, int hh, int shadow)
 {
 	//2019: Adding parameter list. 
-	float x0 = xx, y0 = yy, x1 = xx+ww, y1 = yy+hh;
+	int x0 = xx, y0 = yy, x1 = xx+ww, y1 = yy+hh;
 
 	const struct stipple
 	{

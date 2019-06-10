@@ -730,6 +730,7 @@ void UI::Control::execute_callback()
 	//HACK: output_live is responsible for output_callback.
 	//However, when there is a user callback GLUT may have
 	//drawn the picture too soon. So it must refresh again.
+	//NOTE: The binaries in Cg's SDK exhibit this behavior.
 
 	//When controls do set_int_val before execute_callback
 	//output_callback is called before the callback. If it

@@ -282,7 +282,7 @@ void Text_Interface::set_limits(double l1, double l2, int limit_type)
 
 	if(data_type!=UI_EDIT_TEXT)
 	{
-		float new_val = float_val; CLAMP(new_val,l1,l2);
+		double new_val = float_val; CLAMP(new_val,l1,l2);
 
 		if(new_val!=float_val) set_float_val(new_val);
 	}

@@ -330,8 +330,11 @@ struct UI::_glut_friends
 		GLUI.curr_modifiers = glutGetModifiers();
 		if(left)
 		{	
+			/*Holds true, but occasionally fires when switching in/out
+			of debugging.
 			//glutMouseFunc is only called if buttons move.
 			assert(down!=GLUI.curr_button_down||GLUI.curr_cancel_down);
+			*/
 
 			//NOTE: prev_button_down is only for the event.
 			GLUI.prev_button_down = state!=GLUT_DOWN;
@@ -844,12 +847,8 @@ void UI::get_dims(int *w, int *h)
 
 void UI::_display()
 {
-	if(!_pending_idleclose) //freeglut
-	{
-		_pending_redisplay = false;
-	}
-	else return;
-			
+	if(_pending_idleclose) return; //freeglut
+	
 	//HACK: _init sets _main_panel to be its active control in order
 	//defer activation until the controls are added.
 	if(_main_panel==GLUI.active_control) activate();
@@ -882,6 +881,8 @@ void UI::_display()
 		return;
 	}
 
+		_pending_redisplay = false;
+	
 	//2019: Supplementing GLUI_DRAWINGSENTINAL_IDIOM	
 	_buffer_mode = glutGet(GLUT_WINDOW_DOUBLEBUFFER)?_buffer_back:_buffer_front;
 	//2019: Leaving this code in place. GLUT may not
@@ -1847,7 +1848,7 @@ void UI::_subwindow_position(int parent_w, int parent_h)
 			case SUBWINDOW: case 0: break;
 
 			//Assuming SUBWINDOW flags don't require a mask
-			default: assert(0); 
+			default: assert(_flags&_HIDDEN);  
 			}
 		}
 	}

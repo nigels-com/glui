@@ -438,7 +438,7 @@ public:
  Keeps an array of GLUI_Bitmap objects to represent all the 
  images used in the UI: checkboxes, arrows, etc.
 */
-LINKAGE const Bitmap *std_bitmaps[/*Bitmap::_NUM_ITEMS*/];
+LINKAGE extern const Bitmap *std_bitmaps[/*Bitmap::_NUM_ITEMS*/];
 
 struct Silver3ubv //back-compat 
 {
@@ -494,10 +494,10 @@ public:
 		assert(*this); return (T*)_union; 
 	}
 
-	inline operator typename T*()const
+	inline operator T*()const
 	{
 		if(sizeof(T)!=sizeof(typename T::Sub))
-		return dynamic_cast<typename T*>(_union);
+		return dynamic_cast<T*>(_union);
 		return (T*)dynamic_cast<typename T::Sub*>(_union);
 	}
 };
@@ -1527,10 +1527,10 @@ private: //Interface methods
 		//GLUI's 3D widgets should use WASD so to be navigable.
 		switch(key) 
 		{
-		case 'w': key = 101; break; //GLUT_KEY_UP
-		case 's': key = 103; break; //GLUT_KEY_DOWN
-		case 'a': key = 100; break; //GLUT_KEY_LEFT
-		case 'd': key = 102; break; //GLUT_KEY_RIGHT
+		case 'w': case 'W': key = 101; break; //GLUT_KEY_UP
+		case 's': case 'S': key = 103; break; //GLUT_KEY_DOWN
+		case 'a': case 'A': key = 100; break; //GLUT_KEY_LEFT
+		case 'd': case 'D': key = 102; break; //GLUT_KEY_RIGHT
 		default: return true;
 		}
 		return special_handler(key,modifiers);
@@ -3645,6 +3645,10 @@ public: //Interface methods
 	LINKAGE void _draw();	
 	LINKAGE void _update_size();
 	inline void _update_live(){ do_selection(int_val); }
+	inline bool _mouse_down_handler(int local_x, int local_y)
+	{
+		return !box_test(local_x,local_y);
+	}
 	LINKAGE bool _mouse_over(bool state, int local_x, int local_y);
 	LINKAGE bool _special_handler(int key, int modifiers);	
 	inline Control *_wheel(){ return this; }
