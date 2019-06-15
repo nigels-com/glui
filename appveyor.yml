@@ -13,8 +13,9 @@ configuration:
 
 build_script:
   # Fetch Windows GLUT headers and libraries
-  - mkdir ../glut
-  - cd ../glut
+  - cd ..
+  - mkdir glut
+  - cd glut
   - curl http://www.nigels.com/download/NvidiaCgGLUT_Windows.zip --output glut.zip
   - unzip glut.zip
   - cd ../glui
