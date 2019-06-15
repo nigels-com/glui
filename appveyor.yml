@@ -1,0 +1,29 @@
+# Windows CI build via the Appveyor service
+
+version: '{build}'
+
+# Build matrix variables -
+#   * environment
+#   * platform
+#   * configuration
+environment:
+  matrix:
+    - COMPILER: "Visual Studio 16 Win32"
+    - COMPILER: "Visual Studio 16 Win64"
+
+# build platform, i.e. x86, x64, Any CPU.
+platform:
+  - x86
+  - x64
+
+# build Configuration, i.e. Debug, Release, etc.
+configuration:
+  - Debug
+  - Release
+
+build_script:
+  - mkdir build
+  - cd build
+  - cmake -G "%COMPILER%" ..
+  - cmake --build . --config %CONFIGURATION%
+  - cd ..
