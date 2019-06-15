@@ -14,6 +14,8 @@ configuration:
 build_script:
   - mkdir build
   - cd build
-  - cmake -G "%COMPILER%" ..
+  - curl http://www.nigels.com/download/NvidiaCgGLUT_Windows.zip --output glut.zip
+  - unzip glut.zip
+  - cmake -G "%COMPILER%" -DGLUT_INCLUDE_DIR=include -DGLUT_glut_LIBRARY_DEBUG=lib -DGLUT_glut_LIBRARY_RELEASE=lib ..
   - cmake --build . --config %CONFIGURATION%
   - cd ..
