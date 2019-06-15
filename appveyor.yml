@@ -5,8 +5,11 @@ image: Visual Studio 2019
 environment:
   matrix:
     - COMPILER: "Visual Studio 16 2019"
-    - ARCH: "Win32"
-    - ARCH: "Win64"
+      ARCH: "Win32"
+      GLUT_LIBRARY: "../../glut/lib/glut32.lib"
+    - COMPILER: "Visual Studio 16 2019"
+      ARCH: "Win64"
+      GLUT_LIBRARY: "../../glut/lib.x64/glut32.lib"
 
 configuration:
   - Debug
@@ -24,6 +27,12 @@ build_script:
   # Build GLUI
   - mkdir build
   - cd build
-  - cmake -G "%COMPILER%" -DGLUT_INCLUDE_DIR=../../glut/include -DGLUT_glut_LIBRARY_DEBUG=../../glut/lib/glut32.lib -DGLUT_glut_LIBRARY_RELEASE=../../glut/lib/glut32.lib ..
+  - cmake
+      -G "%COMPILER%"
+      -A "%ARCH%"
+      -DGLUT_INCLUDE_DIR=../../glut/include
+      -DGLUT_glut_LIBRARY_DEBUG="%GLUT_LIBRARY%"
+      -DGLUT_glut_LIBRARY_RELEASE="%GLUT_LIBRARY%"
+      ..
   - cmake --build . --config %CONFIGURATION%
   - cd ..
