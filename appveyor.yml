@@ -16,6 +16,6 @@ build_script:
   - cd build
   - curl http://www.nigels.com/download/NvidiaCgGLUT_Windows.zip --output glut.zip
   - unzip glut.zip
-  - cmake -G "%COMPILER%" -DGLUT_INCLUDE_DIR=include -DGLUT_glut_LIBRARY_DEBUG=lib -DGLUT_glut_LIBRARY_RELEASE=lib ..
+  - cmake -G "%COMPILER%" -DGLUT_INCLUDE_DIR=include -DGLUT_glut_LIBRARY_DEBUG=lib/glut32.lib -DGLUT_glut_LIBRARY_RELEASE=lib/glut32.lib ..
   - cmake --build . --config %CONFIGURATION%
   - cd ..
