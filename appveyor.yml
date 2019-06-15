@@ -8,7 +8,7 @@ environment:
       ARCH: "Win32"
       GLUT_LIBRARY: "../../glut/lib/glut32.lib"
     - COMPILER: "Visual Studio 16 2019"
-      ARCH: "Win64"
+      ARCH: "x64"
       GLUT_LIBRARY: "../../glut/lib.x64/glut32.lib"
 
 configuration:
