@@ -1,21 +1,12 @@
-# Windows CI build via the Appveyor service
-
 version: '{build}'
 
-# Build matrix variables -
-#   * environment
-#   * platform
-#   * configuration
+image: Visual Studio 2019
+
 environment:
   matrix:
-    - COMPILER: "Visual Studio 15 2017"
-    - COMPILER: "Visual Studio 15 2017 Win64"
+    - COMPILER: "Visual Studio 16 2019"
+    - COMPILER: "Visual Studio 16 2019 Win64"
 
-# build platform, i.e. x86, x64, Any CPU.
-platform:
-  - x64
-
-# build Configuration, i.e. Debug, Release, etc.
 configuration:
   - Debug
   - Release
